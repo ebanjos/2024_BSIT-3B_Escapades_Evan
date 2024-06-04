@@ -4,7 +4,7 @@
     require('../inc/essentials.php');
     adminLogin();
 
-    if(isset($_POST['add_room']))
+    if(isset($_POST['add-room']))
     {
         $features = filteration(json_decode($_POST['features']));
         $facilities = filteration(json_decode($_POST['facilities']));
@@ -56,5 +56,39 @@
             echo 0;
         }
 
+    }
+
+    if(isset($_POST['get_all_rooms']))
+    {
+        $res = selectAll('rooms');
+        $i=0;
+
+        $data ="";
+        
+        while($row = mysqli_fetch_assoc($res))
+        {
+            $data.="
+            <tr class='align-middle'>
+             <td>$i</td>
+             <td>$row[name]</td>
+             <td>$row[area]</td>
+             <td>
+                <span class='badge rounded-pill bg-light text-dark'>
+                    Adult: $row[adult]
+                </span>
+                <span class='badge rounded-pill bg-light text-dark'>
+                    Children: $row[children]
+                </span>
+             </td>
+             <td>$row[price]</td>
+             <td>$row[quantity]</td>
+             <td>Status</td>
+             <td>Buttons</td>
+            </tr>
+            ";
+            $i++;
+        }
+
+        echo $data;
     }
 ?>
